@@ -1,80 +1,88 @@
 /* ──────────────────────────────────────────────────────────────
    Asesor de Estudio — sistema de diseño
-   Tokens tomados del DESIGN.md del prototipo hecho en Stitch,
-   para que la maqueta funcional y las pantallas del informe
-   sean el mismo producto.
+
+   La idea visual sale del material de un estudiante de primer año:
+   la hoja cuadriculada, la tinta azul de la birome, el resaltador
+   amarillo (lo leído) y el tilde verde de la corrección (lo dominado).
+   La app usa esas dos marcas para separar «lo leí» de «lo sé».
    ────────────────────────────────────────────────────────────── */
 :root{
-  /* superficies */
-  --surface:#faf8ff;
+  /* papel */
+  --surface:#f5f6fa;
   --surface-lowest:#ffffff;
-  --surface-low:#f2f3ff;
-  --surface-c:#eaedff;
-  --surface-high:#e2e7ff;
-  --surface-highest:#dae2fd;
-  --surface-dim:#d2d9f4;
+  --surface-low:#eef0f7;
+  --surface-c:#e8ebf4;
+  --surface-high:#dfe3ef;
+  --surface-highest:#d4daea;
+  --surface-dim:#e9ecf4;
+  --grid-line:#e2e6f2;
 
-  /* tinta */
-  --on-surface:#131b2e;
-  --on-surface-var:#434655;
-  --outline:#747686;
-  --outline-var:#c4c5d7;
-  --inverse-surface:#283044;
+  /* grafito */
+  --on-surface:#121a33;
+  --on-surface-var:#4b5270;
+  --outline:#767c97;
+  --outline-var:#cdd2e2;
+  --hairline:#e3e6f0;
+  --inverse-surface:#1b2340;
   --inverse-on-surface:#eef0ff;
 
-  /* primario — azul del producto */
+  /* tinta azul: acciones y marca */
   --primary:#0037b0;
   --on-primary:#ffffff;
-  --primary-c:#1d4ed8;
-  --on-primary-c:#cad3ff;
-  --primary-fixed:#dce1ff;
-  --on-primary-fixed-var:#0039b5;
+  --primary-c:#2450d6;
+  --on-primary-c:#c9d4ff;
+  --primary-fixed:#e1e7ff;
+  --on-primary-fixed-var:#0037b0;
+  --primary-ink-2:#002a8a;
 
-  /* secundario — verde: lo dominado, lo logrado */
-  --secondary:#006c49;
+  /* tilde verde: lo dominado */
+  --secondary:#057a4e;
   --on-secondary:#ffffff;
-  --secondary-c:#6cf8bb;
-  --on-secondary-c:#00714d;
-  --secondary-fixed:#6ffbbe;
+  --secondary-c:#cdf3df;
+  --on-secondary-c:#04573a;
+  --secondary-fixed:#a8ebc8;
 
-  /* terciario — ámbar: atención, pendiente de prueba */
-  --tertiary:#623c00;
+  /* resaltador: lo leído que todavía no se probó */
+  --marker:#ffe14a;
+  --tertiary:#5a4500;
   --on-tertiary:#ffffff;
-  --tertiary-c:#825100;
-  --on-tertiary-c:#ffcb8f;
-  --tertiary-fixed:#ffddb8;
-  --on-tertiary-fixed-var:#653e00;
+  --tertiary-c:#a07800;
+  --on-tertiary-c:#fff0a3;
+  --tertiary-fixed:#fff2ad;
+  --on-tertiary-fixed-var:#5a4500;
 
-  /* error */
-  --error:#ba1a1a;
+  /* error: la birome roja del docente */
+  --error:#c0262d;
   --on-error:#ffffff;
-  --error-c:#ffdad6;
-  --on-error-c:#93000a;
+  --error-c:#ffe1df;
+  --on-error-c:#8c1016;
 
   /* tipografía */
   --font:'Manrope',-apple-system,'Segoe UI',system-ui,sans-serif;
+  --display:'Bricolage Grotesque','Manrope',system-ui,sans-serif;
+  --hand:'Caveat','Segoe Print','Bradley Hand',cursive;
 
-  --t-display:800 30px/1.14 var(--font);
-  --t-headline:800 23px/1.2 var(--font);
-  --t-title:700 17px/1.3 var(--font);
-  --t-subtitle:600 15px/1.35 var(--font);
-  --t-body:500 14.5px/1.5 var(--font);
-  --t-body-sm:500 13px/1.5 var(--font);
-  --t-label:700 12.5px/1.35 var(--font);
-  --t-caption:600 11.5px/1.4 var(--font);
-  --t-micro:700 10.5px/1.3 var(--font);
+  --t-display:800 32px/1.06 var(--display);
+  --t-headline:700 25px/1.12 var(--display);
+  --t-title:700 19px/1.22 var(--display);
+  --t-subtitle:700 15px/1.35 var(--font);
+  --t-body:500 15px/1.5 var(--font);
+  --t-body-sm:500 13.5px/1.5 var(--font);
+  --t-label:700 13.5px/1.3 var(--font);
+  --t-caption:600 12.5px/1.4 var(--font);
+  --t-micro:700 11px/1.3 var(--font);
 
-  /* forma y profundidad */
-  --r-sm:8px; --r:12px; --r-lg:16px; --r-xl:22px; --r-full:999px;
-  --e1:0 1px 2px rgba(19,27,46,.07), 0 1px 3px rgba(19,27,46,.05);
-  --e2:0 2px 6px rgba(19,27,46,.08), 0 4px 14px rgba(19,27,46,.06);
-  --e3:0 8px 28px rgba(19,27,46,.14);
+  /* forma y profundidad: plano sobre papel; sombra solo para lo que flota */
+  --r-sm:9px; --r:14px; --r-lg:18px; --r-xl:26px; --r-full:999px;
+  --e1:0 1px 0 rgba(18,26,51,.04);
+  --e2:0 10px 24px -12px rgba(18,26,51,.28);
+  --e3:0 24px 60px -18px rgba(18,26,51,.38);
 
   /* medidas del marco */
   --phone-w:390px;
   --phone-h:844px;
   --appbar-h:60px;
-  --tabbar-h:66px;
+  --tabbar-h:70px;
   --gutter:20px;
 }
 
@@ -82,13 +90,15 @@
 html{height:100%}
 body{
   height:100%; font:var(--t-body); color:var(--on-surface);
-  background:var(--surface-dim); -webkit-font-smoothing:antialiased;
+  background:var(--surface); -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
 }
 button,input,textarea,select{font:inherit;color:inherit}
 button{background:none;border:0;cursor:pointer}
 ul,ol{list-style:none}
 a{color:var(--primary);text-decoration:none}
-:focus-visible{outline:2.5px solid var(--primary-c);outline-offset:2px;border-radius:6px}
+:focus-visible{outline:2.5px solid var(--primary-c);outline-offset:2px;border-radius:8px}
+::selection{background:var(--marker);color:var(--on-surface)}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
 }

@@ -154,11 +154,13 @@
 
     var minutos = P.minutosPorDia(d);
     var franjas = (d.momento || ['tarde']).map(function (m) {
-      return { manana: 'a la mañana', mediodia: 'al mediodía', tarde: 'a la tarde',
+      return {
+      manana: 'a la mañana', mediodia: 'al mediodía', tarde: 'a la tarde',
         noche: 'a la noche' }[m];
     }).join(' y ');
 
     return {
+      celebrar: true,
       bar: { titulo: 'Tu perfil de estudio', back: '/diag/' + (S.DIAGNOSTICO.length - 1) },
       body:
         '<div class="celebrate">' +

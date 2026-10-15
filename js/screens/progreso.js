@@ -52,6 +52,7 @@
           }).join('') +
         '</div>' +
 
+        '<div class="home-grid"><div class="home-col">' +
         /* las dos cifras enfrentadas */
         '<div class="card bar-left ' + m.color + '" style="margin-bottom:12px">' +
           '<div class="row-between" style="margin-bottom:13px">' +
@@ -72,7 +73,7 @@
             '<span class="p-small row" style="gap:6px"><i style="width:9px;height:9px;' +
             'border-radius:2px;background:var(--secondary);display:block"></i>Dominado</span>' +
             '<span class="p-small row" style="gap:6px"><i style="width:9px;height:9px;' +
-            'border-radius:2px;background:var(--primary);display:block"></i>Leído sin probar</span>' +
+            'border-radius:2px;background:var(--marker);display:block"></i>Leído sin probar</span>' +
             '<span class="p-small row" style="gap:6px"><i style="width:9px;height:9px;' +
             'border-radius:2px;background:var(--surface-high);display:block"></i>Pendiente</span>' +
           '</div>' +
@@ -100,12 +101,46 @@
           }).join('') +
         '</div>' +
 
+        '</div><div class="home-col">' +
+        /* todas las materias juntas */
+        '<div class="section-h"><h3>Todas tus materias</h3></div>' +
+        '<div class="card"><div class="row" style="gap:18px">' +
+          '<div class="chart-box" style="width:132px;height:132px;flex:none"><canvas id="pg-dona" aria-label="Unidades dominadas, leídas y pendientes"></canvas></div>' +
+          '<div class="grow">' +
+            leyenda('var(--secondary)', 'Dominadas', tot.dominadas) +
+            leyenda('var(--marker)', 'Leídas sin probar', tot.leidas - tot.dominadas) +
+            leyenda('var(--surface-high)', 'Pendientes', tot.total - tot.leidas) +
+          '</div></div></div>' +
         /* constancia */
         '<div class="section-h"><h3>Tu constancia</h3></div>' +
         bloqueConstancia() +
-        '<div class="sp-24"></div>',
+        '</div></div>',
 
       onMount: function () {
+        var css = getComputedStyle(document.documentElement);
+        var col = function (v) { return css.getPropertyValue(v).trim(); };
+        global.Anim.grafico(document.getElementById('pg-dona'), {
+          type: 'doughnut',
+          data: { labels: ['Dominadas', 'Leídas sin probar', 'Pendientes'],
+            datasets: [{ data: [tot.dominadas, tot.leidas - tot.dominadas, tot.total - tot.leidas],
+              backgroundColor: [col('--secondary'), col('--marker'), col('--surface-high')], borderWidth: 0, borderRadius: 4, spacing: 2 }] },
+          options: { cutout: '68%', maintainAspectRatio: false, plugins: { legend: { display: false } },
+            animation: { animateRotate: true, duration: 1100, easing: 'easeOutQuart' } }
+        });
+        var d = diasConstancia();
+        global.Anim.grafico(document.getElementById('pg-const'), {
+          type: 'bar',
+          data: { labels: d.map(function (x) { return U.parseYmd(x.f).getDate(); }),
+            datasets: [
+              { label: 'Hechas', data: d.map(function (x) { return x.hechas; }), backgroundColor: col('--secondary'), borderRadius: 5, stack: 's' },
+              { label: 'Sin hacer', data: d.map(function (x) { return x.total - x.hechas; }), backgroundColor: col('--surface-high'), borderRadius: 5, stack: 's' }
+            ] },
+          options: { maintainAspectRatio: false, plugins: { legend: { display: false },
+              tooltip: { callbacks: { title: function (it) { return U.fmtDate(d[it[0].dataIndex].f, true); } } } },
+            scales: { x: { stacked: true, grid: { display: false }, border: { display: false }, ticks: { font: { size: 10 } } },
+              y: { stacked: true, display: false, beginAtZero: true } },
+            animation: { duration: 900, easing: 'easeOutQuart' } }
+        });
         A.accion('pg-ayuda', function () {
           A.sheet('<h3>Qué significa cada estado</h3>' +
             '<div class="sh-sub">La diferencia entre haber leído un tema y saberlo.</div>' +
@@ -133,7 +168,7 @@
       '<span class="unit-sub">' + s + '</span></span></div>';
   }
 
-  function bloqueConstancia() {
+  function diasConstancia() {
     var st = S.get();
     var dias = [];
     for (var i = 13; i >= 0; i--) {
@@ -142,34 +177,31 @@
       var hechas = ses.filter(function (s) { return s.estado === 'hecha'; }).length;
       dias.push({ f: f, total: ses.length, hechas: hechas });
     }
-    var max = Math.max.apply(null, dias.map(function (d) { return d.total; }).concat([1]));
-    var sem = S.cumplimientoSemana();
+    return dias;
+  }
 
+  function leyenda(color, texto, n) {
+    return '<div class="row-between" style="padding:7px 0">' +
+      '<span class="row" style="gap:9px;font:var(--t-body-sm);font-weight:600">' +
+      '<i style="width:12px;height:12px;border-radius:4px;background:' + color + ';display:block"></i>' + texto + '</span>' +
+      '<b style="font:800 18px/1 var(--display)" data-count="' + n + '">' + n + '</b></div>';
+  }
+
+  function bloqueConstancia() {
+    var st = S.get();
+    var sem = S.cumplimientoSemana();
     return '<div class="card">' +
       '<div class="row-between" style="margin-bottom:12px">' +
-        '<b style="font:var(--t-subtitle)">Últimas dos semanas</b>' +
+        '<b style="font:var(--t-subtitle)">Sesiones de las últimas dos semanas</b>' +
         '<span class="p-small tnum">' + sem.hechas + '/' + sem.total + ' esta semana</span>' +
       '</div>' +
-      '<div style="display:flex;align-items:flex-end;gap:3px;height:68px;margin-bottom:8px">' +
-        dias.map(function (d) {
-          var h = d.total ? Math.max(8, d.total / max * 60) : 4;
-          var hh = d.total ? (d.hechas / d.total) : 0;
-          return '<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;' +
-            'height:100%" title="' + U.fmtDate(d.f) + ': ' + d.hechas + ' de ' + d.total + '">' +
-            '<div style="height:' + h + 'px;border-radius:3px;background:var(--surface-high);' +
-            'display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden">' +
-            '<div style="height:' + Math.round(hh * 100) + '%;background:var(--secondary);' +
-            'border-radius:3px"></div></div></div>';
-        }).join('') +
-      '</div>' +
-      '<div class="row-between p-small muted">' +
-        '<span>' + U.fmtDate(dias[0].f) + '</span><span>hoy</span></div>' +
-      '<div class="divider" style="margin:13px 0"></div>' +
+      '<div class="chart-box"><canvas id="pg-const" aria-label="Sesiones hechas por día"></canvas></div>' +
+      '<div class="divider" style="margin:14px 0"></div>' +
       '<div class="row">' +
         '<span class="li-ico amber">' + U.icon('flame', 19) + '</span>' +
         '<span class="grow"><b style="font:var(--t-subtitle);display:block">' +
         st.usuario.racha + ' días seguidos estudiando</b>' +
-        '<span class="p-small">Tu mejor momento desde que empezaste</span></span></div>' +
+        '<span class="p-small">Tu mejor racha desde que empezaste</span></span></div>' +
       '</div>';
   }
 

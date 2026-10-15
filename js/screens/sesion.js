@@ -456,6 +456,7 @@
     var pr = S.progresoMateria(s.materiaId);
 
     return {
+      celebrar: true,
       bar: null,
       body:
         '<div class="celebrate" style="padding-top:28px">' +

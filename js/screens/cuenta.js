@@ -46,8 +46,26 @@
   });
 
   /* ── /acceso — elegir iniciar sesión o crear cuenta ──────────── */
+  /* panel ilustrado que acompaña al acceso en pantallas grandes */
+  function arte() {
+    return '<div class="sa-top">' + U.logo(46) + '<span>Asesor de Estudio</span></div>' +
+      '<div class="sa-mid">' +
+        '<h2>Estudiar muchas horas no es lo mismo que <mark>saber</mark>.</h2>' +
+        '<p>El 91 % de los estudiantes que encuestamos rindió mal alguna vez habiendo estudiado. ' +
+        'Asesor de Estudio te dice cómo estudiar cada tema y te muestra si de verdad lo aprendiste.</p>' +
+        '<div class="sa-card">' +
+          '<span class="sa-meta">Tu pregunta, escrita hace 2 días</span>' +
+          '<span class="sa-q">¿Cómo se aplica la regla de la cadena?</span>' +
+          '<span class="sa-bar"><i class="m" style="width:34%"></i><i class="r" style="width:33%"></i></span>' +
+          '<span class="sa-leg"><b class="m"></b>Dominado <b class="r"></b>Leído sin probar</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="sa-foot">Proyecto final de Diseño UX-UI · Grupo C · UTN Facultad Regional Mendoza</div>';
+  }
+
   R.add('/acceso', function () {
     return {
+      split: arte(),
       bar: null,
       body:
         '<div style="min-height:100%;display:flex;flex-direction:column;justify-content:center;' +
@@ -86,6 +104,7 @@
   R.add('/login', function () {
     var c = S.get().cuenta;
     return {
+      split: arte(),
       bar: { titulo: 'Iniciar sesión', back: '/acceso' },
       body:
         '<p class="p-body" style="margin:6px 0 22px">Usá el correo con el que te registraste.</p>' +
@@ -138,6 +157,7 @@
   /* ── /registro ───────────────────────────────────────────────── */
   R.add('/registro', function () {
     return {
+      split: arte(),
       bar: { titulo: 'Crear una cuenta', back: '/acceso' },
       body:
         '<div class="stepper" style="margin:4px 0 16px"><i class="done"></i><i></i><i></i></div>' +

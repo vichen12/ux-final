@@ -3,13 +3,23 @@
 Prototipo navegable del MVP. Proyecto final de **Diseño UX-UI**, Grupo C «Figma locos»,
 Universidad Tecnológica Nacional, Facultad Regional Mendoza.
 
+Integrantes: Alvarez, Joaquín · Dallape, Vincenzo · Flores, Martín · Lovos, David ·
+Ortiz, Renzo · Podesta, Isidro · Saini, Alejo.
+
 ## Cómo abrirla
 
 Doble click en **`index.html`**. Nada más: no hay que instalar ni compilar nada, y
 funciona sin internet (la tipografía va incluida).
 
-En una pantalla grande se ve dentro de un teléfono, con una columna al costado que
-explica qué es. En un celular ocupa toda la pantalla.
+Es responsive, siguiendo Material 3 adaptable: en el celular la navegación va en una barra
+inferior; en una pantalla de 900 px o más pasa a un panel lateral y el contenido se ordena
+en columnas. El botón **Recorrido** (abajo) salta a cualquier pantalla del happy path y
+permite reiniciar los datos o recorrer la app desde cero.
+
+Librerías incluidas en `js/vendor/` (funcionan sin internet): **GSAP** para las
+transiciones y los números animados, **Chart.js** para los gráficos de Progreso y
+**canvas-confetti** para los logros (plan listo, sesión terminada, unidad dominada).
+Todo el movimiento se desactiva si el sistema pide reducir animaciones.
 
 ## Qué es y qué no es
 
@@ -48,7 +58,7 @@ Es un sitio estático: no tiene build ni dependencias.
 3. Framework Preset: **Other**. Build Command y Output Directory: dejalos vacíos.
 4. En **Project Name** poné `asesor-de-estudio-grupo-c` para que la URL quede
    `https://asesor-de-estudio-grupo-c.vercel.app`, que es la que figura en la presentación.
-   Si ese nombre está tomado, usá otro y cambiá el link en las diapositivas 61 y 77.
+   Si ese nombre está tomado, usá otro y cambiá el link en las diapositivas 62 y 78.
 5. **Deploy**.
 
 Alternativa sin GitHub: `npm i -g vercel` y, dentro de esta carpeta, `vercel --prod`.
@@ -89,15 +99,18 @@ mi diagnóstico · ajustes · acerca de · avisos
 asesor-de-estudio/
 ├── index.html              armazón de la app
 ├── css/
-│   ├── fonts.css           Manrope incluida (funciona sin internet)
+│   ├── fonts.css           Manrope, Bricolage Grotesque y Caveat incluidas
 │   ├── tokens.css          sistema de diseño: color, tipografía, formas
-│   └── app.css             componentes y pantallas
+│   ├── app.css             componentes y pantallas
+│   └── shell.css           armado responsive: panel lateral / barra inferior
 ├── js/
 │   ├── ui.js               iconos, fechas, utilidades
 │   ├── data.js             estado en memoria y datos de prueba
 │   ├── planner.js          generador de plan y repaso espaciado
 │   ├── router.js           navegación por hash
 │   ├── app.js              avisos, hojas, diálogos, arranque
+│   ├── anim.js             movimiento (GSAP), gráficos (Chart.js), confetti, recorrido
+│   ├── vendor/             GSAP, Chart.js y canvas-confetti
 │   └── screens/            un archivo por sección (cuenta, onboarding, inicio…)
 └── assets/fonts/           tipografía
 ```

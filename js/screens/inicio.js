@@ -46,13 +46,7 @@
       },
       tab: 'inicio',
       body:
-        /* ── racha y cumplimiento ── */
-        '<div class="stats-row" style="margin-bottom:16px">' +
-          '<div><b>' + u.racha + '</b><span>días seguidos</span></div>' +
-          '<div><b>' + sem.pct + '%</b><span>del plan semanal</span></div>' +
-          '<div><b>' + Math.round(S.minutosSemana() / 60) + ' h</b><span>esta semana</span></div>' +
-        '</div>' +
-
+        '<div class="home-grid"><div class="home-col">' +
         /* ── próxima sesión ── */
         (prox ? tarjetaProxima(prox) : tarjetaSinPlan()) +
 
@@ -81,6 +75,16 @@
               }).join('') +
             '</div>'
           : '') +
+        '</div><div class="home-col">' +
+
+        /* ── racha y cumplimiento ── */
+        '<div class="section-h"><h3>Tu semana</h3></div>' +
+        '<div class="stats-row">' +
+          '<div><b data-count="' + u.racha + '">' + u.racha + '</b><span>días seguidos</span></div>' +
+          '<div><b data-count="' + sem.pct + '" data-suf="%">' + sem.pct + '%</b><span>del plan semanal</span></div>' +
+          '<div><b data-count="' + Math.round(S.minutosSemana() / 60) + '" data-suf=" h">' +
+            Math.round(S.minutosSemana() / 60) + ' h</b><span>estudiadas</span></div>' +
+        '</div>' +
 
         /* ── materias ── */
         '<div class="section-h"><h3>Mis materias</h3>' +
@@ -109,7 +113,7 @@
 
         /* ── cuenta regresiva ── */
         (proxParcial ? bloqueParcial(proxParcial) : '') +
-        '<div class="sp-24"></div>'
+        '</div></div>'
 
     };
   });
@@ -124,31 +128,17 @@
       : dias === 1 ? 'Mañana a las ' + s.hora
       : U.fmtDate(s.fecha) + ' a las ' + s.hora;
 
-    return '<div class="card" style="background:var(--primary);color:var(--on-primary);' +
-      'box-shadow:var(--e2)">' +
-      '<div class="eyebrow" style="color:var(--on-primary-c);margin-bottom:10px">' +
-        U.icon('clock', 14, 2.2) + (dias === 0 ? 'Próxima sesión' : 'Siguiente sesión') + '</div>' +
-      '<div style="font:var(--t-headline);letter-spacing:-.02em;margin-bottom:5px">' +
-        U.esc(u ? u.titulo : 'Unidad ' + s.unidad) + '</div>' +
-      '<div style="font:var(--t-body-sm);color:var(--on-primary-c);margin-bottom:14px">' +
-        U.esc(m ? m.nombre : '') + ' · unidad ' + s.unidad + '</div>' +
-
-      '<div style="background:rgba(255,255,255,.14);border-radius:12px;padding:12px;' +
-        'margin-bottom:14px;display:flex;gap:11px;align-items:flex-start">' +
-        '<span style="flex:none;color:#fff">' + U.icon(t.icono, 19) + '</span>' +
-        '<span><b style="font:var(--t-label);display:block;margin-bottom:2px">' +
-        U.esc(t.nombre) + '</b>' +
-        '<span style="font:var(--t-caption);color:var(--on-primary-c);line-height:1.45">' +
-        U.esc(t.corto) + '</span></span></div>' +
-
-      '<div style="font:var(--t-caption);color:var(--on-primary-c);margin-bottom:12px">' +
-        U.icon('clock', 13, 2.2).replace('<svg', '<svg style="vertical-align:-2px;margin-right:4px"') +
-        cuando + ' · ' + U.mins(s.duracion) + '</div>' +
-      '<button class="btn btn-block" style="background:#fff;color:var(--primary)" ' +
-        'data-go="/sesion/' + s.id + (dias === 0 ? '/activa' : '') + '">' +
+    return '<div class="hero">' +
+      '<div class="hero-top"><span class="hero-when">' + U.icon('clock', 15, 2.3) +
+        (dias === 0 ? 'Tu próxima sesión · ' : '') + cuando + '</span>' +
+        '<span class="hero-dur">' + U.mins(s.duracion) + '</span></div>' +
+      '<h2>' + U.esc(u ? u.titulo : 'Unidad ' + s.unidad) + '</h2>' +
+      '<div class="hero-sub">' + U.esc(m ? m.nombre : '') + ' · unidad ' + s.unidad + '</div>' +
+      '<div class="hero-tech"><span class="ht-ico">' + U.icon(t.icono, 19) + '</span>' +
+        '<span><b>Técnica: ' + U.esc(t.nombre) + '</b><span>' + U.esc(t.corto) + '</span></span></div>' +
+      '<button class="btn btn-block" data-go="/sesion/' + s.id + (dias === 0 ? '/activa' : '') + '">' +
         U.icon('play', 17, 2.4) + (dias === 0 ? 'Empezar sesión' : 'Ver sesión') + '</button>' +
-      '</div>' +
-      '<div class="sp-16"></div>';
+      '</div><div class="sp-16"></div>';
   }
 
   function tarjetaSinPlan() {

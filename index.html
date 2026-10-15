@@ -4,75 +4,51 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Asesor de Estudio</title>
-<meta name="description" content="Maqueta funcional de Asesor de Estudio — Proyecto final de Diseño UX-UI, Grupo C, UTN FRM.">
+<meta name="description" content="Asesor de Estudio: la app que le dice al estudiante de primer año cómo estudiar, no solo cuándo. Prototipo funcional del proyecto final de Diseño UX-UI, Grupo C, UTN FRM.">
 <meta name="theme-color" content="#0037b0">
 <link rel="icon" href="assets/icon.svg">
 <link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/shell.css">
 </head>
 <body>
 
-<div class="stage">
-
-  <!-- ░░ el teléfono ░░ -->
-  <div class="phone" id="phone">
-    <div class="notch"></div>
-    <div class="statusbar">
-      <span id="sb-time">9:41</span>
-      <span class="sb-icons">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.5 1.2 9.3a15.3 15.3 0 0 1 21.6 0z"/></svg>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 22h20V2z"/></svg>
-        <svg width="9" height="15" viewBox="0 0 12 20" fill="currentColor" aria-hidden="true"><rect x="3.5" y="0" width="5" height="2.5" rx="1"/><rect x="0" y="2" width="12" height="18" rx="2.2"/></svg>
-        <span style="font-size:11.5px;margin-left:1px">87%</span>
-      </span>
-    </div>
-
-    <!-- aquí se dibuja cada pantalla -->
-    <div id="phone-body" style="flex:1;min-height:0;display:flex;flex-direction:column"></div>
-
-    <div class="homebar"><i></i></div>
-  </div>
-
-  <!-- ░░ panel de contexto, solo en pantallas grandes ░░ -->
-  <aside class="stage-side">
-    <div class="side-mark">
-      <svg viewBox="0 0 48 48" fill="none" width="42" height="42" aria-hidden="true">
-        <rect width="48" height="48" rx="12" fill="#0037b0"/>
-        <path d="M12 18L24 12L36 18L24 24L12 18Z" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M16 20.5V28C16 31 20 34 24 34C28 34 32 31 32 28V20.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M36 18V26" stroke="#ffcb8f" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-      <div><b>Asesor de Estudio</b><span>Maqueta funcional</span></div>
-    </div>
-
-    <h1>No te dice cuándo estudiar, sino cómo.</h1>
-    <p>Prototipo navegable del MVP. Todas las pantallas funcionan y los datos son de
-       prueba: no hay servidor ni base de datos detrás.</p>
-
-    <ul class="side-list">
-      <li><b>·</b><span>El plan reparte el programa en sesiones y le asigna una técnica a cada una.</span></li>
-      <li><b>·</b><span>Las preguntas del quiz las escribe el estudiante al cerrar cada sesión.</span></li>
-      <li><b>·</b><span>El repaso se programa solo, según cómo le fue en el último intento.</span></li>
-      <li><b>·</b><span>El progreso separa lo leído de lo dominado.</span></li>
-    </ul>
-
-    <div class="side-actions">
-      <button data-act="empezar-vacio">Recorrer desde cero</button>
-      <button data-act="reiniciar-demo">Reiniciar datos</button>
-    </div>
-
-    <p class="side-foot">Proyecto final de Diseño UX-UI · Grupo C «Figma locos»<br>
-      Universidad Tecnológica Nacional, Facultad Regional Mendoza</p>
-  </aside>
-
+<!-- la app: en escritorio con navegación lateral, en el celular con barra inferior -->
+<div class="app" id="phone">
+  <div id="phone-body"></div>
 </div>
 
+<!-- herramientas para la demostración en la defensa -->
+<button class="demo-fab" id="demo-fab" aria-expanded="false" aria-controls="demo-panel">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
+  <span>Recorrido</span>
+</button>
+<aside class="demo-panel" id="demo-panel" hidden>
+  <div class="dp-head">
+    <b>Recorrido del happy path</b>
+    <button class="dp-close" data-demo-close aria-label="Cerrar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <p class="dp-sub">Saltá a cualquier pantalla. Los datos son de prueba y viven en memoria.</p>
+  <ol class="tour" id="tour"></ol>
+  <div class="dp-actions">
+    <button data-act="empezar-vacio">Recorrer desde cero</button>
+    <button data-act="reiniciar-demo">Reiniciar datos</button>
+  </div>
+  <p class="dp-foot">Proyecto final de Diseño UX-UI · Grupo C «Figma locos» · UTN Facultad Regional Mendoza</p>
+</aside>
+
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/chart.min.js"></script>
+<script src="js/vendor/confetti.min.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/data.js"></script>
 <script src="js/planner.js"></script>
 <script src="js/router.js"></script>
 <script src="js/app.js"></script>
+<script src="js/anim.js"></script>
 <script src="js/screens/cuenta.js"></script>
 <script src="js/screens/onboarding.js"></script>
 <script src="js/screens/inicio.js"></script>

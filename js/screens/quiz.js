@@ -279,6 +279,7 @@
     var aprobo = nota >= 70;
 
     return {
+      celebrar: aprobo,
       bar: { titulo: 'Resultado del repaso', back: '/quizzes' },
       body:
         '<div class="celebrate" style="padding-top:20px">' +

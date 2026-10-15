@@ -80,7 +80,7 @@
     var izq = b.back
       ? '<button class="ab-back" data-back="' + (b.back === true ? '' : b.back) +
         '" aria-label="Volver">' + U.icon('back', 22, 2) + '</button>'
-      : (b.logo ? '<div style="flex:none">' + U.logo(34) + '</div>' : '');
+      : (b.logo ? '<div class="ab-logo" style="flex:none">' + U.logo(34) + '</div>' : '');
     var tit = '<div class="ab-titles"><div class="ab-title">' + U.esc(b.titulo || '') + '</div>' +
       (b.sub ? '<div class="ab-sub">' + U.esc(b.sub) + '</div>' : '') + '</div>';
     var acc = (b.acciones || []).map(function (a) {
@@ -96,6 +96,43 @@
     }).join('');
     return '<header class="' + cls + '">' + izq + tit +
       (acc ? '<div class="ab-actions">' + acc + '</div>' : '') + '</header>';
+  }
+
+  /* ── navegación lateral (escritorio) ─────────────────────────── */
+  function sidebar(activo) {
+    var st = global.Store.get();
+    var pend = global.Store.repasosHoy().length;
+    var u = st.usuario || {};
+    var prox = global.Store.proximaSesion ? global.Store.proximaSesion() : null;
+    var hoy = prox && prox.fecha === global.Store.hoyStr();
+    var mprox = prox ? global.Store.materia(prox.materiaId) : null;
+    var uprox = prox ? global.Store.unidad(prox.materiaId, prox.unidad) : null;
+    return '<nav class="side" aria-label="Principal">' +
+      '<button class="side-brand" data-go="/inicio">' + U.logo(38) +
+        '<span><b>Asesor de Estudio</b><small>tu método, no solo tu agenda</small></span></button>' +
+      '<div class="side-nav">' + TABS.map(function (t) {
+        var on = t.id === activo;
+        var badge = (t.id === 'quizzes' && pend)
+          ? '<span class="side-badge">' + (pend > 9 ? '9+' : pend) + '</span>' : '';
+        return '<button class="side-item' + (on ? ' on' : '') + '" data-go="' + t.to + '"' +
+          (on ? ' aria-current="page"' : '') + '>' +
+          U.icon(t.icono, 21, on ? 2.2 : 1.8) + '<span>' + t.texto + '</span>' + badge + '</button>';
+      }).join('') + '<span class="side-pill" aria-hidden="true"></span></div>' +
+      (prox && uprox && activo !== 'inicio'
+        ? '<div class="side-next">' +
+            '<span class="sn-when">' + (hoy ? 'Hoy, ' + prox.hora : U.fmtDate(prox.fecha) + ', ' + prox.hora) + '</span>' +
+            '<b>' + U.esc(uprox.titulo) + '</b>' +
+            '<span class="sn-sub">' + U.esc(mprox ? mprox.corto || mprox.nombre : '') + ' · ' +
+              U.esc(global.Store.TECNICAS[prox.tecnica].nombre) + '</span>' +
+            '<button class="btn btn-sm btn-block" data-go="/sesion/' + prox.id + (hoy ? '/activa' : '') + '">' +
+              U.icon('play', 15, 2.4) + (hoy ? 'Empezar sesión' : 'Ver sesión') + '</button>' +
+          '</div>'
+        : '') +
+      '<button class="side-user" data-go="/perfil">' +
+        '<span class="su-av">' + U.esc(u.iniciales || '') + '</span>' +
+        '<span class="su-txt"><b>' + U.esc((u.nombre || '') + ' ' + (u.apellido || '')) + '</b>' +
+        '<small>' + U.esc(u.carrera || 'Mi perfil') + '</small></span></button>' +
+      '</nav>';
   }
 
   /* ── render ──────────────────────────────────────────────────── */
@@ -125,20 +162,34 @@
 
     actual = { path: p, vista: vista };
     var root = document.getElementById('phone-body');
-    root.innerHTML =
+    var cuerpo =
       appbar(vista.bar) +
       '<main class="screen' + (vista.flush ? ' flush' : '') +
-        (vista.fab ? ' with-fab' : '') + '" id="screen">' +
-      (vista.body || '') + '</main>' +
-      (vista.footer ? '<div class="footer-cta">' + vista.footer + '</div>' : '') +
-      (vista.fab ? vista.fab : '') +
-      (vista.tab ? tabbar(vista.tab) : '');
+        (vista.fab ? ' with-fab' : '') + (vista.ancho ? ' ancho' : '') + '" id="screen">' +
+      '<div class="screen-in">' + (vista.body || '') + '</div></main>' +
+      (vista.footer ? '<div class="footer-cta"><div class="footer-in">' + vista.footer + '</div></div>' : '') +
+      (vista.fab ? vista.fab : '');
+
+    if (vista.tab) {
+      /* pantallas principales: navegación lateral en escritorio, barra inferior en el celular */
+      root.className = 'layout-shell';
+      root.innerHTML = sidebar(vista.tab) +
+        '<div class="main">' + cuerpo + tabbar(vista.tab) + '</div>';
+    } else {
+      /* flujos con foco (cuenta, diagnóstico, sesión, quiz): sin navegación, columna angosta */
+      root.className = 'layout-focus' + (vista.split ? ' split' : '');
+      root.innerHTML = (vista.split ? '<div class="split-art">' + vista.split + '</div>' : '') +
+        '<div class="main">' + cuerpo + '</div>';
+    }
 
     document.getElementById('screen').scrollTop = 0;
     montado = vista;
     if (vista.onMount) {
       try { vista.onMount(document.getElementById('screen')); }
       catch (e) { console.error('onMount', p, e); }
+    }
+    if (global.Router.onRender) {
+      try { global.Router.onRender(p, vista); } catch (e) { console.error('onRender', e); }
     }
     document.title = (vista.bar && vista.bar.titulo ? vista.bar.titulo + ' · ' : '') +
       'Asesor de Estudio';
