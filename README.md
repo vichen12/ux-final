@@ -49,19 +49,12 @@ conecta al campus ni a Google Calendar, y no guarda nada entre sesiones.
 
 La presentación final está en [`presentacion/GrupoC_AsesorDeEstudio_2026.pptx`](presentacion/GrupoC_AsesorDeEstudio_2026.pptx). No se publica en Vercel (está en `.vercelignore`).
 
-## Publicarla en Vercel
+## Publicada en Vercel
 
-Es un sitio estático: no tiene build ni dependencias.
+El proyecto `ux-final` de Vercel está conectado a este repositorio: cada `git push` a
+`main` publica la versión nueva sola.
 
-1. En vercel.com: **Add New → Project** e importá este repositorio (`vichen12/ux-final`).
-2. Root Directory: la raíz del repo, donde está `index.html`.
-3. Framework Preset: **Other**. Build Command y Output Directory: dejalos vacíos.
-4. En **Project Name** poné `asesor-de-estudio-grupo-c` para que la URL quede
-   `https://asesor-de-estudio-grupo-c.vercel.app`, que es la que figura en la presentación.
-   Si ese nombre está tomado, usá otro y cambiá el link en las diapositivas 62 y 78.
-5. **Deploy**.
-
-Alternativa sin GitHub: `npm i -g vercel` y, dentro de esta carpeta, `vercel --prod`.
+**Link:** https://ux-final-lemon.vercel.app
 
 ## Las pantallas
 
