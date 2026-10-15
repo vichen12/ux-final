@@ -1,0 +1,94 @@
+/* ──────────────────────────────────────────────────────────────
+   Asesor de Estudio — sistema de diseño
+   Tokens tomados del DESIGN.md del prototipo hecho en Stitch,
+   para que la maqueta funcional y las pantallas del informe
+   sean el mismo producto.
+   ────────────────────────────────────────────────────────────── */
+:root{
+  /* superficies */
+  --surface:#faf8ff;
+  --surface-lowest:#ffffff;
+  --surface-low:#f2f3ff;
+  --surface-c:#eaedff;
+  --surface-high:#e2e7ff;
+  --surface-highest:#dae2fd;
+  --surface-dim:#d2d9f4;
+
+  /* tinta */
+  --on-surface:#131b2e;
+  --on-surface-var:#434655;
+  --outline:#747686;
+  --outline-var:#c4c5d7;
+  --inverse-surface:#283044;
+  --inverse-on-surface:#eef0ff;
+
+  /* primario — azul del producto */
+  --primary:#0037b0;
+  --on-primary:#ffffff;
+  --primary-c:#1d4ed8;
+  --on-primary-c:#cad3ff;
+  --primary-fixed:#dce1ff;
+  --on-primary-fixed-var:#0039b5;
+
+  /* secundario — verde: lo dominado, lo logrado */
+  --secondary:#006c49;
+  --on-secondary:#ffffff;
+  --secondary-c:#6cf8bb;
+  --on-secondary-c:#00714d;
+  --secondary-fixed:#6ffbbe;
+
+  /* terciario — ámbar: atención, pendiente de prueba */
+  --tertiary:#623c00;
+  --on-tertiary:#ffffff;
+  --tertiary-c:#825100;
+  --on-tertiary-c:#ffcb8f;
+  --tertiary-fixed:#ffddb8;
+  --on-tertiary-fixed-var:#653e00;
+
+  /* error */
+  --error:#ba1a1a;
+  --on-error:#ffffff;
+  --error-c:#ffdad6;
+  --on-error-c:#93000a;
+
+  /* tipografía */
+  --font:'Manrope',-apple-system,'Segoe UI',system-ui,sans-serif;
+
+  --t-display:800 30px/1.14 var(--font);
+  --t-headline:800 23px/1.2 var(--font);
+  --t-title:700 17px/1.3 var(--font);
+  --t-subtitle:600 15px/1.35 var(--font);
+  --t-body:500 14.5px/1.5 var(--font);
+  --t-body-sm:500 13px/1.5 var(--font);
+  --t-label:700 12.5px/1.35 var(--font);
+  --t-caption:600 11.5px/1.4 var(--font);
+  --t-micro:700 10.5px/1.3 var(--font);
+
+  /* forma y profundidad */
+  --r-sm:8px; --r:12px; --r-lg:16px; --r-xl:22px; --r-full:999px;
+  --e1:0 1px 2px rgba(19,27,46,.07), 0 1px 3px rgba(19,27,46,.05);
+  --e2:0 2px 6px rgba(19,27,46,.08), 0 4px 14px rgba(19,27,46,.06);
+  --e3:0 8px 28px rgba(19,27,46,.14);
+
+  /* medidas del marco */
+  --phone-w:390px;
+  --phone-h:844px;
+  --appbar-h:60px;
+  --tabbar-h:66px;
+  --gutter:20px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%}
+body{
+  height:100%; font:var(--t-body); color:var(--on-surface);
+  background:var(--surface-dim); -webkit-font-smoothing:antialiased;
+}
+button,input,textarea,select{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+ul,ol{list-style:none}
+a{color:var(--primary);text-decoration:none}
+:focus-visible{outline:2.5px solid var(--primary-c);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
