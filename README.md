@@ -47,7 +47,7 @@ conecta al campus ni a Google Calendar, y no guarda nada entre sesiones.
 
 ## Presentación
 
-La presentación final está en [`presentacion/GrupoC_AsesorDeEstudio_2026.pptx`](presentacion/GrupoC_AsesorDeEstudio_2026.pptx). No se publica en Vercel (está en `.vercelignore`).
+La presentación final (30 diapositivas) está en [`presentacion/GrupoC_AsesorDeEstudio_2026.pptx`](presentacion/GrupoC_AsesorDeEstudio_2026.pptx) y el informe completo (40 páginas) en [`presentacion/Informe_AsesorDeEstudio_GrupoC_2026.pdf`](presentacion/Informe_AsesorDeEstudio_GrupoC_2026.pdf). No se publica en Vercel (está en `.vercelignore`).
 
 ## Publicada en Vercel
 
